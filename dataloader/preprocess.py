@@ -17,7 +17,6 @@ __imagenet_pca = {
     ])
 }
 
-
 def scale_crop(input_size, scale_size=None, normalize=__imagenet_stats):
     t_list = [
         transforms.ToTensor(),
@@ -28,7 +27,6 @@ def scale_crop(input_size, scale_size=None, normalize=__imagenet_stats):
 
     return transforms.Compose(t_list)
 
-
 def scale_random_crop(input_size, scale_size=None, normalize=__imagenet_stats):
     t_list = [
         transforms.RandomCrop(input_size),
@@ -37,9 +35,7 @@ def scale_random_crop(input_size, scale_size=None, normalize=__imagenet_stats):
     ]
     if scale_size != input_size:
         t_list = [transforms.Scale(scale_size)] + t_list
-
     transforms.Compose(t_list)
-
 
 def pad_random_crop(input_size, scale_size=None, normalize=__imagenet_stats):
     padding = int((scale_size - input_size) / 2)
@@ -50,7 +46,6 @@ def pad_random_crop(input_size, scale_size=None, normalize=__imagenet_stats):
         transforms.Normalize(**normalize),
     ])
 
-
 def inception_preproccess(input_size, normalize=__imagenet_stats):
     return transforms.Compose([
         transforms.RandomSizedCrop(input_size),
@@ -58,6 +53,7 @@ def inception_preproccess(input_size, normalize=__imagenet_stats):
         transforms.ToTensor(),
         transforms.Normalize(**normalize)
     ])
+    
 def inception_color_preproccess(input_size, normalize=__imagenet_stats):
     return transforms.Compose([
         #transforms.RandomSizedCrop(input_size),
@@ -72,9 +68,7 @@ def inception_color_preproccess(input_size, normalize=__imagenet_stats):
         transforms.Normalize(**normalize)
     ])
 
-
-def get_transform(name='imagenet', input_size=None,
-                  scale_size=None, normalize=None, augment=True):
+def get_transform(name='imagenet', input_size=None, scale_size=None, normalize=None, augment=True):
     normalize = __imagenet_stats
     input_size = 256
     if augment:
@@ -82,8 +76,6 @@ def get_transform(name='imagenet', input_size=None,
     else:
             return scale_crop(input_size=input_size,
                               scale_size=scale_size, normalize=normalize)
-
-
 
 
 class Lighting(object):
@@ -177,3 +169,4 @@ class ColorJitter(RandomOrder):
             self.transforms.append(Contrast(contrast))
         if saturation != 0:
             self.transforms.append(Saturation(saturation))
+
